@@ -24,7 +24,7 @@ public class BasketBallScript : MonoBehaviour
     void Update()
     {
         angleBall = medidorAngulo.GetAngle();
-        this.transform.eulerAngles = new Vector3(-angleBall, this.transform.eulerAngles.y, this.transform.eulerAngles.z);
+        this.transform.eulerAngles = new Vector3(-angleBall, transform.eulerAngles.y, transform.eulerAngles.z);
         if (Input.GetKeyDown(KeyCode.Space) && !rb.useGravity)
         {
             Lançamento();
@@ -51,7 +51,7 @@ public class BasketBallScript : MonoBehaviour
 
     public void Lançamento()
     {
-        this.transform.eulerAngles = new Vector3(-angleBall, 0, 0);
+        this.transform.eulerAngles = new Vector3(-angleBall, transform.eulerAngles.y, transform.eulerAngles.z);
         forcePowerBall = medidorForca.DeterminandoVelocidade();
         rb.AddForce(transform.forward* forcePowerBall, ForceMode.Force);
         rb.useGravity = true;
@@ -60,7 +60,8 @@ public class BasketBallScript : MonoBehaviour
     {
         touchFloor = false;
         rb.useGravity = false;
-        this.transform.localPosition = new Vector3(0,-0.4f,0.8f);
+        transform.localPosition = new Vector3(0,-0.4f,0.8f);
+        transform.localEulerAngles = new Vector3(0, 0, 0);
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
