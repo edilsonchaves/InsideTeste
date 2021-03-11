@@ -11,12 +11,15 @@ public class BasketBallScript : MonoBehaviour
     float timerReset;
     medidorForça medidorForca;
     MedidorAngulo medidorAngulo;
+    GameScript gameScript;
+    bool fizCesta;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         medidorForca = GameObject.Find("PowerShoot").GetComponent<medidorForça>();
         medidorAngulo = GameObject.Find("AngleBasketBall").GetComponent<MedidorAngulo>();
+        gameScript = GameObject.Find("GameManager").GetComponent<GameScript>();
 
     }
 
@@ -58,6 +61,11 @@ public class BasketBallScript : MonoBehaviour
     }
     void ResetBall()
     {
+        if (fizCesta)
+        {
+            fizCesta = false;
+            gameScript.DefinirNovaPosicaoPlayer();
+        }
         touchFloor = false;
         rb.useGravity = false;
         transform.localPosition = new Vector3(0,-0.4f,0.8f);
@@ -71,6 +79,7 @@ public class BasketBallScript : MonoBehaviour
         if (other.CompareTag("CheckCesta"))
         {
             Debug.Log("Cesta");
+            fizCesta = true;
         }
     }
 
