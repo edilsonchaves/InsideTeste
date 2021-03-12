@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class medidorForça : MonoBehaviour
+public class MedidorForça : MonoBehaviour
 {
     [SerializeField] Slider sliderMovement;
     [SerializeField] float[] forcePower;

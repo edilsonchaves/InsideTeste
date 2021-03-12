@@ -9,18 +9,19 @@ public class BasketBallScript : MonoBehaviour
     [SerializeField] int forcePowerBall;
     bool touchFloor;
     float timerReset;
-    medidorForça medidorForca;
+    MedidorForça medidorForca;
     MedidorAngulo medidorAngulo;
     GameScript gameScript;
+    ParticlesEffect particle;
     bool fizCesta;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        medidorForca = GameObject.Find("PowerShoot").GetComponent<medidorForça>();
+        medidorForca = GameObject.Find("PowerShoot").GetComponent<MedidorForça>();
         medidorAngulo = GameObject.Find("AngleBasketBall").GetComponent<MedidorAngulo>();
         gameScript = GameObject.Find("GameManager").GetComponent<GameScript>();
-
+        particle = GameObject.Find("ParticleSystem").GetComponent<ParticlesEffect>();
     }
 
     // Update is called once per frame
@@ -45,7 +46,7 @@ public class BasketBallScript : MonoBehaviour
         }
         else
         {
-            if (this.transform.position.y < 0)
+            if (this.transform.position.y < 0 || gameScript.partidainfo.TempoPartida <= 0)
             {
                 ResetBall();
             }
@@ -58,6 +59,7 @@ public class BasketBallScript : MonoBehaviour
         forcePowerBall = medidorForca.DeterminandoVelocidade();
         rb.AddForce(transform.forward* forcePowerBall, ForceMode.Force);
         rb.useGravity = true;
+        gameScript.AlteraçãoQuantArremesso();
     }
     void ResetBall()
     {
@@ -76,9 +78,11 @@ public class BasketBallScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("CheckCesta"))
+        if (other.CompareTag("CheckCesta") && !touchFloor)
         {
             Debug.Log("Cesta");
+            gameScript.AlteraçãoQuantCesta();
+            particle.CestaPartcileSystem();
             fizCesta = true;
         }
     }
